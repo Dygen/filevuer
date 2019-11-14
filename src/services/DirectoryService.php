@@ -5,7 +5,7 @@ namespace jwhulette\filevuer\services;
 
 use Illuminate\Filesystem\FilesystemManager;
 use jwhulette\filevuer\services\SessionInterface;
-use jwhulette\filevuer\Traits\SessionDriverTrait;
+use jwhulette\filevuer\traits\SessionDriverTrait;
 use SebastianBergmann\Environment\Console;
 
 /**
@@ -37,7 +37,7 @@ class DirectoryService implements DirectoryServiceInterface
         $this->fileSystem = $fileSystem;
     }
 
-    
+
     /**
      * List the directory contenets
      *
@@ -143,7 +143,7 @@ class DirectoryService implements DirectoryServiceInterface
 
             return round(pow(1024, $base - floor($base)), $precision).$suffixes[floor($base)];
         }
-            
+
         return $size.' bytes';
     }
 }

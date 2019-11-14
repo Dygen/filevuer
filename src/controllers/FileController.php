@@ -4,7 +4,7 @@ namespace Jwhulette\Filevuer\controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use jwhulette\filevuer\Traits\SessionDriverTrait;
+use jwhulette\filevuer\traits\SessionDriverTrait;
 use jwhulette\filevuer\services\FileServiceInterface;
 
 /**

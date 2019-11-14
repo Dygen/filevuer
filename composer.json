@@ -1,17 +1,17 @@
 {
-    "name": "jwhulette/Filevuer",
+    "name": "dygen/filevuer",
     "description": "A remote FTP & S3 file manager using VueJS",
     "keywords": [
         "Laravel",
         "S3",
         "FTP"
     ],
-    "homepage": "https://github.com/jwhulette/Filevuer", 
+    "homepage": "https://github.com/Dygen/filevuer",
     "license": "MIT",
     "type": "library",
     "authors": [{
-        "name": "Wes Hulette",
-        "email": "jwhulette@gmail.com"
+        "name": "Dygen",
+        "email": "dygen@gmail.com"
     }],
     "require": {
         "php": ">=7.1.0",

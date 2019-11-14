@@ -6,7 +6,7 @@ namespace jwhulette\filevuer\services;
 use Exception;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Filesystem\FilesystemManager;
-use jwhulette\filevuer\Traits\SessionDriverTrait;
+use jwhulette\filevuer\traits\SessionDriverTrait;
 
 class UploadService implements UploadServiceInterface
 {
