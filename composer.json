@@ -21,12 +21,15 @@
         "maennchen/zipstream-php": "^0.5.2"
     },
     "require-dev": {
-        "codedungeon/phpunit-result-printer": "^0.19.13",
+        "codedungeon/phpunit-result-printer": "^0.26",
         "orchestra/testbench": "~3.6|~3.5",
-        "phpunit/php-code-coverage": "^6.0@dev",
-        "phpunit/phpunit": "^7.0"
+        "phpunit/php-code-coverage": "^7",
+        "phpunit/phpunit": "^8"
     },
     "autoload": {
+        "classmap": [
+            "src/"
+        ],
         "psr-4": {
             "jwhulette\\filevuer\\": "src/"
         }

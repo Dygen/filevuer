@@ -11,7 +11,7 @@ use jwhulette\filevuer\services\DownloadServiceInterface;
 
 class DownloadServiceTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
     }

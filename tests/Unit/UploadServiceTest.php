@@ -13,7 +13,7 @@ class UploadServiceTest extends TestCase
 {
     protected $tmpPath;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->tmpPath = sys_get_temp_dir();
