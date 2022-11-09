@@ -35,10 +35,10 @@ class DownloadControllerTest extends TestCase
 
         $response->assertStatus(200);
         $this->assertEquals('application/octet-stream;', $response->headers->get('Content-Type'));
-        $this->assertContains('attachment; filename=', $response->headers->get('Content-Disposition'));
+        $this->assertStringContainsString('attachment; filename=', $response->headers->get('Content-Disposition'));
     }
 
-    public function testDownloadMulitFile()
+    public function testDownloadMultiFile()
     {
         $files = $this->dummyListing();
 
@@ -59,12 +59,11 @@ class DownloadControllerTest extends TestCase
             ->willReturn(true);
         $this->app->instance(ZipStream::class, $filesystem);
 
-        $service = app()->make(DownloadServiceInterface::class);
         session()->put(SessionInterface::FILEVUER_DOWNLOAD.'123456', $files);
         
         $response = $this->withSession($this->getSessionValues())->get(route('filevuer.download', ['hash' => '123456']));
         $response->assertStatus(200);
         $this->assertEquals('application/octet-stream;', $response->headers->get('Content-Type'));
-        $this->assertContains('attachment; filename=', $response->headers->get('Content-Disposition'));
+        $this->assertStringContainsString('attachment; filename=', $response->headers->get('Content-Disposition'));
     }
 }
