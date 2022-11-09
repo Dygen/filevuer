@@ -9,7 +9,7 @@ use jwhulette\filevuer\services\SessionInterface;
 
 class SessionDriverMiddelwareTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
     }

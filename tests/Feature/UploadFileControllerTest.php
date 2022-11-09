@@ -9,7 +9,7 @@ use jwhulette\filevuer\services\UploadServiceInterface;
 
 class UploadFileControllerTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
     }
@@ -55,7 +55,7 @@ class UploadFileControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function testUploadFaildZip()
+    public function testUploadFailedZip()
     {
         $files = [
             UploadedFile::fake()->create('document.pdf', 20000),

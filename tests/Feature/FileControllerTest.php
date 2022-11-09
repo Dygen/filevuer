@@ -2,15 +2,13 @@
 
 namespace jwhulette\filevuer\Tests\Feature;
 
-use InvalidArgumentException;
-use jwhulette\filevuer\Tests\TestCase;
-use Illuminate\Contracts\Filesystem\Cloud;
 use Illuminate\Filesystem\FilesystemManager;
 use jwhulette\filevuer\services\SessionInterface;
+use jwhulette\filevuer\Tests\TestCase;
 
 class FileControllerTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $filesystem = $this->getMockBuilder(FilesystemManager::class)

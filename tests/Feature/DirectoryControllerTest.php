@@ -8,7 +8,7 @@ use Illuminate\Filesystem\FilesystemManager;
 
 class DirectoryControllerTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $filesystem = $this->getMockBuilder(FilesystemManager::class)
