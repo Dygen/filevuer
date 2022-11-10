@@ -119,7 +119,7 @@ class DirectoryService implements DirectoryServiceInterface
     {
         return array_map(function ($item) {
             if (isset($item['size'])) {
-                $item['size'] = $this->formatBytes($item['size']);
+                $item['size'] = $this->formatBytes((int) $item['size']);
             }
 
             return $item;

@@ -55,8 +55,7 @@ class DownloadControllerTest extends TestCase
         $this->app->instance(FilesystemManager::class, $filesystem);
 
         $zipStream = $this->createMock(ZipStream::class);
-        $zipStream->method('addFileFromStream')
-            ->willReturn(true);
+        $zipStream->method('addFileFromStream');
         $this->app->instance(ZipStream::class, $filesystem);
 
         session()->put(SessionInterface::FILEVUER_DOWNLOAD.'123456', $files);

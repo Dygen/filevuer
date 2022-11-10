@@ -34,8 +34,7 @@ class DownloadServiceTest extends TestCase
         $this->app->instance(FilesystemManager::class, $filesystem);
 
         $zipStream = $this->createMock(ZipStream::class);
-        $zipStream->method('addFileFromStream')
-            ->willReturn(true);
+        $zipStream->method('addFileFromStream');
         $this->app->instance(ZipStream::class, $filesystem);
 
         $service = app()->make(DownloadServiceInterface::class);
