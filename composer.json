@@ -18,7 +18,7 @@
         "aws/aws-sdk-php": "^3.64",
         "league/flysystem": "^1.0",
         "league/flysystem-aws-s3-v3": "^1.0",
-        "maennchen/zipstream-php": "^0.5.2"
+        "maennchen/zipstream-php": "^2.1"
     },
     "require-dev": {
         "codedungeon/phpunit-result-printer": "^0.26",
