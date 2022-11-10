@@ -125,7 +125,7 @@ class DownloadService implements DownloadServiceInterface
         if ($file['type'] == 'dir') {
             return;
         }
-        $filePath = substr($file['path'], strlen($rootDir) + 1);
+        $filePath = substr($file['path'], $rootDir ? strlen($rootDir) + 1 : 0);
         $stream   = $this->fileSystem->cloud()->readStream($file['path']);
         $zipStream->addFileFromStream($filePath, $stream);
     }
