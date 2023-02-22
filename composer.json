@@ -14,17 +14,16 @@
         "email": "dygen@gmail.com"
     }],
     "require": {
-        "php": ">=7.1.0",
+        "php": ">=8.1",
         "aws/aws-sdk-php": "^3.64",
-        "league/flysystem": "^1.0",
-        "league/flysystem-aws-s3-v3": "^1.0",
+        "league/flysystem": "^3.0",
+        "league/flysystem-aws-s3-v3": "^3.0",
         "maennchen/zipstream-php": "^2.1"
     },
     "require-dev": {
-        "codedungeon/phpunit-result-printer": "^0.26",
-        "orchestra/testbench": "~3.6|~3.5",
-        "phpunit/php-code-coverage": "^7",
-        "phpunit/phpunit": "^8"
+        "codedungeon/phpunit-result-printer": "^0.32",
+        "orchestra/testbench": "^2.0",
+        "phpunit/phpunit": "^9.0"
     },
     "autoload": {
         "classmap": [
