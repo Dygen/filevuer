@@ -21,10 +21,10 @@ class FilevuerControllerTest extends TestCase
         $response = $this->get(route('filevuer.index'));
 
         $response->assertOk();
-        $response->assertSee('id="filevuer-main"');
-        $response->assertSee(":connections='{&quot;FTP&quot;:[&quot;FTP1&quot;],&quot;S3&quot;:[&quot;AWSS3&quot;]}'");
-        $response->assertSee(":logged-in='false'");
-        $response->assertSee("selected=''");
+        $response->assertSee('id="filevuer-main"', false);
+        $response->assertSee(":connections='{&quot;FTP&quot;:[&quot;FTP1&quot;],&quot;S3&quot;:[&quot;AWSS3&quot;]}'", false);
+        $response->assertSee(":logged-in='false'", false);
+        $response->assertSee("selected=''", false);
     }
 
     public function testConnectAlreadyLoggedIn()
