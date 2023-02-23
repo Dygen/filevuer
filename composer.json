@@ -21,9 +21,8 @@
         "maennchen/zipstream-php": "^2.1"
     },
     "require-dev": {
-        "codedungeon/phpunit-result-printer": "^0.32",
-        "orchestra/testbench": "^2.0",
-        "phpunit/phpunit": "^9.0"
+        "orchestra/testbench": "^7",
+        "phpunit/phpunit": "^9.6"
     },
     "autoload": {
         "classmap": [
@@ -39,10 +38,13 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/phpunit --color=always "
+        "test": "vendor/bin/phpunit"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "kylekatarnls/update-helper": true
+        }
     },
     "extra": {
         "laravel": {
