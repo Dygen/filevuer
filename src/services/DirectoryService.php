@@ -7,6 +7,7 @@ use Illuminate\Filesystem\FilesystemManager;
 use jwhulette\filevuer\services\SessionInterface;
 use jwhulette\filevuer\traits\SessionDriverTrait;
 use SebastianBergmann\Environment\Console;
+use League\Flysystem\DirectoryListing;
 
 /**
  * Directory Service Class
@@ -48,7 +49,7 @@ class DirectoryService implements DirectoryServiceInterface
     public function listing(?string $path = '/'): array
     {
         $path     = $this->getFullPath($path);
-        $contents = $this->fileSystem->cloud()->listContents($path);
+        $contents = $this->fileSystem->cloud()->listContents($path)->toArray();
         $contents = $this->sortForListing($contents);
         $contents = $this->formatFileSize($contents);
 
@@ -65,7 +66,7 @@ class DirectoryService implements DirectoryServiceInterface
     public function delete(?array $path): bool
     {
         foreach ($path as $dir) {
-            $this->fileSystem->cloud()->deleteDir($dir);
+            $this->fileSystem->cloud()->deleteDirectory($dir);
         }
 
         return true;
@@ -82,7 +83,7 @@ class DirectoryService implements DirectoryServiceInterface
     {
         $path = $this->getFullPath($path);
 
-        return $this->fileSystem->cloud()->createDir($path);
+        return $this->fileSystem->cloud()->makeDirectory($path);
     }
 
     /**

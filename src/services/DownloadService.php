@@ -151,7 +151,7 @@ class DownloadService implements DownloadServiceInterface
             fpassthru($stream);
         }, 200, [
             "Content-Type" => 'application/octet-stream;',
-            'Content-Disposition' => 'attachment; filename="'.$downloadFile['basename'].'"',
+            'Content-Disposition' => 'attachment; filename="'.$downloadFile['path'].'"',
         ]);
     }
 }
