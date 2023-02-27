@@ -120,7 +120,7 @@ class DirectoryService implements DirectoryServiceInterface
     {
         return array_map(function ($item) {
             
-            // TODO: Alvaro - aumentar la propiedad basename basename($item->path());
+            $item['basename'] = basename($item->path());
             if (isset($item['size'])) {
                 $item['size'] = $this->formatBytes((int) $item['size']);
             }
