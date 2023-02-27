@@ -23,13 +23,11 @@ class DownloadControllerTest extends TestCase
     {
         session()->put(SessionInterface::FILEVUER_DOWNLOAD.'123456', [ [
             'type'       => 'file',
-            'path'       => 'fileA.txt',
             'visibility' => 'public',
-            'size'       => '30 bytes',
-            'dirname'    => '',
-            'basename'   => 'fileA.txt',
-            'extension'  => 'txt',
-            'filename'   => 'fileA',
+            'file_size'  => '30 bytes',
+            'last_modified' => 1668114807,
+            'mime_type' => null,
+            'path'       => 'fileA.txt',
         ]]);
         $response = $this->withSession($this->getSessionValues())->get(route('filevuer.download', ['hash' => '123456']));
 
