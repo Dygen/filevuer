@@ -50,7 +50,7 @@ class DirectoryService implements DirectoryServiceInterface
     {
         $path     = $this->getFullPath($path);
         $contents = $this->fileSystem->cloud()->listContents($path)->toArray();
-        $contents = $this->sortForListing($contents);
+        $contents = $this->sortForListing($contents); // check method sortByPath in DirectoryListing
         $contents = $this->formatFileSize($contents);
 
         return $contents;
@@ -119,6 +119,8 @@ class DirectoryService implements DirectoryServiceInterface
     protected function formatFileSize(array $contents): array
     {
         return array_map(function ($item) {
+            
+            // TODO: Alvaro - aumentar la propiedad basename basename($item->path());
             if (isset($item['size'])) {
                 $item['size'] = $this->formatBytes((int) $item['size']);
             }
