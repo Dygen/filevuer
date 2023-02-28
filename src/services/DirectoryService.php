@@ -38,8 +38,9 @@ class DirectoryService implements DirectoryServiceInterface
     public function listing(?string $path = '/'): array
     {
         $path = $this->getFullPath($path);
-        $contents = $this->fileSystem->cloud()->listContents($path)->toArray();
-        $contents = $this->sortForListing($contents); // check method sortByPath in DirectoryListing
+        $contents = $this->fileSystem->cloud()->listContents($path)
+            ->sortByPath()
+            ->toArray();
         
         return $this->formatAttributes($contents);
     }
