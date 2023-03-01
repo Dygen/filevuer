@@ -38,7 +38,7 @@ class DirectoryService implements DirectoryServiceInterface
     public function listing(?string $path = '/'): array
     {
         $path = $this->getFullPath($path);
-        $contents = $this->fileSystem->cloud()->listContents($path)->toArray();
+        $contents = $this->fileSystem->cloud()->listContents($path);
         $contents = $this->sortForListing($contents);
         
         return $this->formatAttributes($contents);
@@ -106,6 +106,7 @@ class DirectoryService implements DirectoryServiceInterface
      */
     protected function formatAttributes(array $contents): array
     {
+        // dd($contents);
         return array_map(function ($item) {
             $fileSize = $item->isFile() ? $this->formatBytes((int) $item->fileSize()) : null;
             return (object) [
