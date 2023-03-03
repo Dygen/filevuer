@@ -5,6 +5,7 @@ namespace jwhulette\filevuer\Tests;
 use jwhulette\filevuer\FileVuerServiceProvider;
 use jwhulette\filevuer\services\SessionInterface;
 use Orchestra\Testbench\TestCase as BaseTestCase;
+use \League\Flysystem\FileAttributes;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -98,24 +99,28 @@ abstract class TestCase extends BaseTestCase
             [
                 'type'     => 'dir',
                 'path'     => 'Directory A',
+                'dirname'  => '',
                 'visibility' => null,
             ],
             [
                 'type'       => 'file',
                 'path'       => 'fileA.txt',
                 'visibility' => 'public',
+                'dirname'  => '',
                 'file_size'  => '30 bytes',
             ],
             [
                 'type'       => 'file',
                 'path'       => 'fileB.txt',
                 'visibility' => 'public',
+                'dirname'  => '',
                 'file_size'  => '30 bytes',
             ],
             [
                 'type'       => 'file',
                 'path'       => 'fileC.txt',
                 'visibility' => 'public',
+                'dirname'  => '',
                 'file_size'  => '0 bytes',
             ],
         ];
@@ -128,25 +133,45 @@ abstract class TestCase extends BaseTestCase
             [
                 'type'     => 'dir',
                 'path'     => 'Directory A',
+                'dirname'  => '',
             ],
             [
                 'type'       => 'file',
                 'path'       => 'fileA.txt',
                 'visibility' => 'public',
+                'dirname'  => '',
                 'file_size'  => 30,
             ],
             [
                 'type'       => 'file',
                 'path'       => 'fileB.txt',
                 'visibility' => 'public',
+                'dirname'  => '',
                 'file_size'  => 30,
             ],
             [
                 'type'       => 'file',
                 'path'       => 'fileC.txt',
                 'visibility' => 'public',
+                'dirname'  => '',
                 'file_size'  => 0,
             ],
         ];
+    }
+
+    protected function dummyListingNewVersion()
+    {
+        $dummyData = [];
+
+        $dummyFile = new FileAttributes(
+            'fileA.txt', // path to the file in your storage system
+            30, // size of the file in bytes
+            'public', //visibility
+            now()->getTimestamp(), // timestamp of when the file was last modified
+            'text/plain' // type of file (either 'file' or 'dir')
+        );
+
+        $dummyData[] = $dummyFile;
+        return $dummyData;
     }
 }

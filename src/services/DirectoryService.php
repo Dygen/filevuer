@@ -6,6 +6,7 @@ namespace jwhulette\filevuer\services;
 use Illuminate\Filesystem\FilesystemManager;
 use jwhulette\filevuer\traits\SessionDriverTrait;
 use League\Flysystem\FilesystemException;
+use League\Flysystem\StorageAttributes;
 
 /**
  * Directory Service Class
@@ -38,10 +39,10 @@ class DirectoryService implements DirectoryServiceInterface
     public function listing(?string $path = '/'): array
     {
         $path = $this->getFullPath($path);
-        $contents = $this->fileSystem->cloud()->listContents($path)->toArray();
+        $contents = $this->fileSystem->cloud()->listContents($path);
         $contents = $this->sortForListing($contents);
         
-        return $this->formatAttributes($contents);
+        return $this->formatDirectoryListingAttributes($contents);
     }
 
     /**
@@ -104,18 +105,29 @@ class DirectoryService implements DirectoryServiceInterface
      *
      * @return array
      */
-    protected function formatAttributes(array $contents): array
+    protected function formatDirectoryListingAttributes(array $contents): array
     {
         return array_map(function ($item) {
-            $fileSize = $item->isFile() ? $this->formatBytes((int) $item->fileSize()) : null;
-            return (object) [
-                'basename' => basename($item->path()), 
-                'path' => $item->path(), 
-                'size' => $fileSize, 
-                'visibility' => $item->visibility(), 
-                'type' => $item->type(),
-            ];
+            return $this->formatStorageAttribute($item);
         }, $contents);
+    }
+
+    /**
+     * Add basename to match v1 and format filesize human-readable.
+     *
+     * @param StorageAttributes $item
+     *
+     * @return object
+     */
+    protected function formatStorageAttribute(StorageAttributes $item): object
+    {
+        return (object) [
+            'basename' => basename($item->path()), 
+            'path' => $item->path(), 
+            'size' => $item->isFile() ? $this->formatBytes((int) $item->fileSize()) : null,
+            'visibility' => $item->visibility(), 
+            'type' => $item->type(),
+        ];
     }
 
     /**
