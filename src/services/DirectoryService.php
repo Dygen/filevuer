@@ -118,11 +118,11 @@ class DirectoryService implements DirectoryServiceInterface
      *
      * @param StorageAttributes $item
      *
-     * @return object
+     * @return array
      */
-    protected function formatStorageAttribute(StorageAttributes $item): object
+    public function formatStorageAttribute(StorageAttributes $item): array
     {
-        return (object) [
+        return [
             'basename' => basename($item->path()), 
             'path' => $item->path(), 
             'size' => $item->isFile() ? $this->formatBytes((int) $item->fileSize()) : null,

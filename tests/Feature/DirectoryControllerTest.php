@@ -32,14 +32,37 @@ class DirectoryControllerTest extends TestCase
         $response = $this->withSession($this->getSessionValues())->get(route('filevuer.directory'), [ 'path' => '/']);
 
         $response->assertStatus(200);
-        $expectedItem = (object) [
-            'basename' => "fileA.txt", 
-            'path' => "fileA.txt", 
-            'size' => "30 bytes",
-            'visibility' => "public", 
-            'type' => "file",
+        $expectedItems = [
+            [
+                'basename' => "Directory A", 
+                'path' => "Directory A", 
+                'size' => null,
+                'visibility' => "public", 
+                'type' => "dir",
+            ],
+            [
+                'basename' => "fileA.txt", 
+                'path' => "fileA.txt", 
+                'size' => "30 bytes",
+                'visibility' => "public", 
+                'type' => "file",
+            ],
+            [
+                'basename' => "fileB.txt", 
+                'path' => "fileB.txt", 
+                'size' => "10 bytes",
+                'visibility' => "public", 
+                'type' => "file",
+            ],
+            [
+                'basename' => "fileC.txt", 
+                'path' => "fileC.txt", 
+                'size' => "0 bytes",
+                'visibility' => "public", 
+                'type' => "file",
+            ],
         ];
-        $this->assertEquals(json_encode(['listing' => [$expectedItem]]), $response->getContent());
+        $this->assertEquals(json_encode(['listing' => $expectedItems]), $response->getContent());
     }
 
     public function testCreate()

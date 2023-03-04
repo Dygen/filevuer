@@ -4,6 +4,7 @@ namespace jwhulette\filevuer\Tests;
 
 use jwhulette\filevuer\FileVuerServiceProvider;
 use jwhulette\filevuer\services\SessionInterface;
+use League\Flysystem\DirectoryAttributes;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use \League\Flysystem\FileAttributes;
 
@@ -92,78 +93,17 @@ abstract class TestCase extends BaseTestCase
         ];
     }
 
-
-    protected function dummyListing()
-    {
-        return [
-            [
-                'type'     => 'dir',
-                'path'     => 'Directory A',
-                'dirname'  => '',
-                'visibility' => null,
-            ],
-            [
-                'type'       => 'file',
-                'path'       => 'fileA.txt',
-                'visibility' => 'public',
-                'dirname'  => '',
-                'file_size'  => '30 bytes',
-            ],
-            [
-                'type'       => 'file',
-                'path'       => 'fileB.txt',
-                'visibility' => 'public',
-                'dirname'  => '',
-                'file_size'  => '30 bytes',
-            ],
-            [
-                'type'       => 'file',
-                'path'       => 'fileC.txt',
-                'visibility' => 'public',
-                'dirname'  => '',
-                'file_size'  => '0 bytes',
-            ],
-        ];
-    }
-
-
-    protected function dummyListingPreformat()
-    {
-        return [
-            [
-                'type'     => 'dir',
-                'path'     => 'Directory A',
-                'dirname'  => '',
-            ],
-            [
-                'type'       => 'file',
-                'path'       => 'fileA.txt',
-                'visibility' => 'public',
-                'dirname'  => '',
-                'file_size'  => 30,
-            ],
-            [
-                'type'       => 'file',
-                'path'       => 'fileB.txt',
-                'visibility' => 'public',
-                'dirname'  => '',
-                'file_size'  => 30,
-            ],
-            [
-                'type'       => 'file',
-                'path'       => 'fileC.txt',
-                'visibility' => 'public',
-                'dirname'  => '',
-                'file_size'  => 0,
-            ],
-        ];
-    }
-
     protected function dummyListingNewVersion()
     {
         $dummyData = [];
 
-        $dummyFile = new FileAttributes(
+        $dummyDirectory = new DirectoryAttributes(
+            'Directory A', // path to the directory in your storage system
+            'public', //visibility
+            now()->getTimestamp() // timestamp of when the directory was last modified
+        );
+
+        $dummyFileA = new FileAttributes(
             'fileA.txt', // path to the file in your storage system
             30, // size of the file in bytes
             'public', //visibility
@@ -171,7 +111,23 @@ abstract class TestCase extends BaseTestCase
             'text/plain' // type of file (either 'file' or 'dir')
         );
 
-        $dummyData[] = $dummyFile;
+        $dummyFileB = new FileAttributes(
+            'fileB.txt', // path to the file in your storage system
+            10, // size of the file in bytes
+            'public', //visibility
+            now()->getTimestamp(), // timestamp of when the file was last modified
+            'text/plain' // type of file (either 'file' or 'dir')
+        );
+
+        $dummyFileC = new FileAttributes(
+            'fileC.txt', // path to the file in your storage system
+            0, // size of the file in bytes
+            'public', //visibility
+            now()->getTimestamp(), // timestamp of when the file was last modified
+            'text/plain' // type of file (either 'file' or 'dir')
+        );
+
+        array_push($dummyData, $dummyDirectory, $dummyFileA, $dummyFileB, $dummyFileC);
         return $dummyData;
     }
 }
