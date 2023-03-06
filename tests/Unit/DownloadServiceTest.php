@@ -8,6 +8,7 @@ use jwhulette\filevuer\Tests\TestCase;
 use Illuminate\Filesystem\FilesystemManager;
 use jwhulette\filevuer\services\SessionInterface;
 use jwhulette\filevuer\services\DownloadServiceInterface;
+use jwhulette\filevuer\services\DirectoryServiceInterface;
 
 class DownloadServiceTest extends TestCase
 {
@@ -18,8 +19,8 @@ class DownloadServiceTest extends TestCase
 
     public function testAddFilesToZip()
     {
-        $file = $this->dummyListing()[0];
-        $files = $this->dummyListing();
+        $file = $this->dummyListingNewVersion()[0];
+        $files = $this->dummyListingNewVersion();
 
         $filesystem = $this->getMockBuilder(FilesystemManager::class)
             ->disableOriginalConstructor()
@@ -38,8 +39,9 @@ class DownloadServiceTest extends TestCase
         $this->app->instance(ZipStream::class, $filesystem);
 
         $service = app()->make(DownloadServiceInterface::class);
+        $directoryService = app()->make(DirectoryServiceInterface::class);
         session()->put(SessionInterface::FILEVUER_CONNECTION_NAME, 'testZip');
-        $service->addFilesToZip($file, $zipStream);
+        $service->addFilesToZip($directoryService->formatStorageAttribute($file), $zipStream);
 
         $this->assertTrue(true);
     }

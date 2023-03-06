@@ -23,6 +23,7 @@ class DownloadControllerTest extends TestCase
     {
         session()->put(SessionInterface::FILEVUER_DOWNLOAD.'123456', [ [
             'type'       => 'file',
+            'basename'   => 'fileA.txt',
             'visibility' => 'public',
             'file_size'  => '30 bytes',
             'last_modified' => 1668114807,
@@ -38,7 +39,7 @@ class DownloadControllerTest extends TestCase
 
     public function testDownloadMultiFile()
     {
-        $files = $this->dummyListing();
+        $files = $this->dummyListingNewVersion();
 
         $filesystem = $this->getMockBuilder(FilesystemManager::class)
             ->disableOriginalConstructor()

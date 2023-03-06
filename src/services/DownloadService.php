@@ -114,9 +114,7 @@ class DownloadService implements DownloadServiceInterface
         if ($file['type'] == 'dir') {
             $listing = $this->fileSystem->cloud()->listContents($file['path'], true);
             foreach ($listing as $item) {
-                Log::info(print_r($item, true));
                 $itemInfo = $this->directoryService->formatStorageAttribute($item);
-                Log::info(print_r($itemInfo, true));
                 $this->addFileToZip($zipStream, $itemInfo);
             }
         }
