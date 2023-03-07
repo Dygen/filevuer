@@ -2,8 +2,8 @@
 
 namespace jwhulette\filevuer\Tests\Feature;
 
+use Carbon\Carbon;
 use jwhulette\filevuer\Tests\TestCase;
-use Illuminate\Contracts\Filesystem\Cloud;
 use Illuminate\Filesystem\FilesystemManager;
 
 class DirectoryControllerTest extends TestCase
@@ -13,25 +13,56 @@ class DirectoryControllerTest extends TestCase
         parent::setUp();
         $filesystem = $this->getMockBuilder(FilesystemManager::class)
             ->disableOriginalConstructor()
-            ->setMethods(['cloud', 'listContents','createDir', 'deleteDir'])
+            ->setMethods(['cloud', 'listContents','makeDirectory', 'deleteDirectory'])
             ->getMock();
         $filesystem->method('cloud')
             ->will($this->returnSelf());
         $filesystem->method('listContents')
-            ->willReturn($this->dummyListingPreformat());
-        $filesystem->method('createDir')
+            ->willReturn($this->dummyListing());
+        $filesystem->method('makeDirectory')
             ->willReturn(true);
-        $filesystem->method('deleteDir')
+        $filesystem->method('deleteDirectory')
             ->willReturn(true);
         $this->app->instance(FilesystemManager::class, $filesystem);
     }
 
     public function testIndex()
     {
+        Carbon::setTestNow(Carbon::create(2020, 1, 1));
         $response = $this->withSession($this->getSessionValues())->get(route('filevuer.directory'), [ 'path' => '/']);
 
         $response->assertStatus(200);
-        $this->assertEquals($response->getContent(), json_encode(['listing' => $this->dummyListing()]));
+        $expectedItems = [
+            [
+                'basename' => "Directory A", 
+                'path' => "Directory A", 
+                'size' => null,
+                'visibility' => "public", 
+                'type' => "dir",
+            ],
+            [
+                'basename' => "fileA.txt", 
+                'path' => "fileA.txt", 
+                'size' => "30 bytes",
+                'visibility' => "public", 
+                'type' => "file",
+            ],
+            [
+                'basename' => "fileB.txt", 
+                'path' => "fileB.txt", 
+                'size' => "10 bytes",
+                'visibility' => "public", 
+                'type' => "file",
+            ],
+            [
+                'basename' => "fileC.txt", 
+                'path' => "fileC.txt", 
+                'size' => "0 bytes",
+                'visibility' => "public", 
+                'type' => "file",
+            ],
+        ];
+        $this->assertEquals(json_encode(['listing' => $expectedItems]), $response->getContent());
     }
 
     public function testCreate()

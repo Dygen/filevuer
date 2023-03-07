@@ -4,7 +4,9 @@ namespace jwhulette\filevuer\Tests;
 
 use jwhulette\filevuer\FileVuerServiceProvider;
 use jwhulette\filevuer\services\SessionInterface;
+use League\Flysystem\DirectoryAttributes;
 use Orchestra\Testbench\TestCase as BaseTestCase;
+use \League\Flysystem\FileAttributes;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -91,91 +93,41 @@ abstract class TestCase extends BaseTestCase
         ];
     }
 
-
     protected function dummyListing()
     {
-        return [
-            [
-                'type'     => 'dir',
-                'path'     => 'Directory A',
-                'dirname'  => '',
-                'basename' => 'Directory A',
-                'filename' => 'Directory A',
-            ],
-            [
-                'type'       => 'file',
-                'path'       => 'fileA.txt',
-                'visibility' => 'public',
-                'size'       => '30 bytes',
-                'dirname'    => '',
-                'basename'   => 'fileA.txt',
-                'extension'  => 'txt',
-                'filename'   => 'fileA',
-            ],
-            [
-                'type'       => 'file',
-                'path'       => 'fileB.txt',
-                'visibility' => 'public',
-                'size'       => '30 bytes',
-                'dirname'    => '',
-                'basename'   => 'fileB.txt',
-                'extension'  => 'txt',
-                'filename'   => 'fileB',
-            ],
-            [
-                'type'       => 'file',
-                'path'       => 'fileC.txt',
-                'visibility' => 'public',
-                'size'       => '0 bytes',
-                'dirname'    => '',
-                'basename'   => 'fileC.txt',
-                'extension'  => 'txt',
-                'filename'   => 'fileC',
-            ],
-        ];
-    }
+        $dummyData = [];
 
+        $dummyDirectory = new DirectoryAttributes(
+            'Directory A', // path to the directory in your storage system
+            'public', //visibility
+            now()->getTimestamp() // timestamp of when the directory was last modified
+        );
 
-    protected function dummyListingPreformat()
-    {
-        return [
-            [
-                'type'     => 'dir',
-                'path'     => 'Directory A',
-                'dirname'  => '',
-                'basename' => 'Directory A',
-                'filename' => 'Directory A',
-            ],
-            [
-                'type'       => 'file',
-                'path'       => 'fileA.txt',
-                'visibility' => 'public',
-                'size'       => 30,
-                'dirname'    => '',
-                'basename'   => 'fileA.txt',
-                'extension'  => 'txt',
-                'filename'   => 'fileA',
-            ],
-            [
-                'type'       => 'file',
-                'path'       => 'fileB.txt',
-                'visibility' => 'public',
-                'size'       => 30,
-                'dirname'    => '',
-                'basename'   => 'fileB.txt',
-                'extension'  => 'txt',
-                'filename'   => 'fileB',
-            ],
-            [
-                'type'       => 'file',
-                'path'       => 'fileC.txt',
-                'visibility' => 'public',
-                'size'       => 0,
-                'dirname'    => '',
-                'basename'   => 'fileC.txt',
-                'extension'  => 'txt',
-                'filename'   => 'fileC',
-            ],
-        ];
+        $dummyFileA = new FileAttributes(
+            'fileA.txt', // path to the file in your storage system
+            30, // size of the file in bytes
+            'public', //visibility
+            now()->getTimestamp(), // timestamp of when the file was last modified
+            'text/plain' // type of file (either 'file' or 'dir')
+        );
+
+        $dummyFileB = new FileAttributes(
+            'fileB.txt', // path to the file in your storage system
+            10, // size of the file in bytes
+            'public', //visibility
+            now()->getTimestamp(), // timestamp of when the file was last modified
+            'text/plain' // type of file (either 'file' or 'dir')
+        );
+
+        $dummyFileC = new FileAttributes(
+            'fileC.txt', // path to the file in your storage system
+            0, // size of the file in bytes
+            'public', //visibility
+            now()->getTimestamp(), // timestamp of when the file was last modified
+            'text/plain' // type of file (either 'file' or 'dir')
+        );
+
+        array_push($dummyData, $dummyDirectory, $dummyFileA, $dummyFileB, $dummyFileC);
+        return $dummyData;
     }
 }

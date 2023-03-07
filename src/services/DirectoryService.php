@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace jwhulette\filevuer\services;
 
 use Illuminate\Filesystem\FilesystemManager;
-use jwhulette\filevuer\services\SessionInterface;
 use jwhulette\filevuer\traits\SessionDriverTrait;
-use SebastianBergmann\Environment\Console;
+use League\Flysystem\FilesystemException;
+use League\Flysystem\StorageAttributes;
 
 /**
  * Directory Service Class
@@ -15,17 +15,7 @@ class DirectoryService implements DirectoryServiceInterface
 {
     use SessionDriverTrait;
 
-    /**
-     * Filesystem
-     *
-     * @var object
-     */
-    protected $fileSystem;
-
-    /**
-     * @var ConnectionServiceInterface
-     */
-    protected $connectionService;
+    protected FilesystemManager $fileSystem;
 
     /**
      * __construct
@@ -39,20 +29,21 @@ class DirectoryService implements DirectoryServiceInterface
 
 
     /**
-     * List the directory contenets
+     * List the directory contents
      *
      * @param string|null $path
      *
      * @return array
+     * @throws FilesystemException
      */
     public function listing(?string $path = '/'): array
     {
-        $path     = $this->getFullPath($path);
+        $path = $this->getFullPath($path);
         $contents = $this->fileSystem->cloud()->listContents($path);
+        $contents = !is_array($contents) ? $contents->toArray() : $contents;
         $contents = $this->sortForListing($contents);
-        $contents = $this->formatFileSize($contents);
-
-        return $contents;
+        
+        return $this->formatDirectoryListingAttributes($contents);
     }
 
     /**
@@ -65,7 +56,7 @@ class DirectoryService implements DirectoryServiceInterface
     public function delete(?array $path): bool
     {
         foreach ($path as $dir) {
-            $this->fileSystem->cloud()->deleteDir($dir);
+            $this->fileSystem->cloud()->deleteDirectory($dir);
         }
 
         return true;
@@ -74,7 +65,7 @@ class DirectoryService implements DirectoryServiceInterface
     /**
      * Creates an empty directory.
      *
-     * @param $path
+     * @param string $path
      *
      * @return bool
      */
@@ -82,13 +73,13 @@ class DirectoryService implements DirectoryServiceInterface
     {
         $path = $this->getFullPath($path);
 
-        return $this->fileSystem->cloud()->createDir($path);
+        return $this->fileSystem->cloud()->makeDirectory($path);
     }
 
     /**
      * Sort the listing by type and filename.
      *
-     * @param $contents
+     * @param array $contents
      *
      * @return array
      */
@@ -102,34 +93,48 @@ class DirectoryService implements DirectoryServiceInterface
             }
 
             // Sort by name
-            return strcmp($typeA['filename'], $typeB['filename']);
+            return strcmp($typeA['path'], $typeB['path']);
         });
 
         return $contents;
     }
 
     /**
-     * Format the filesize human readable.
+     * Add basename to match v1 and format filesize human-readable.
      *
-     * @param $contents
+     * @param array $contents
      *
      * @return array
      */
-    protected function formatFileSize(array $contents): array
+    protected function formatDirectoryListingAttributes(array $contents): array
     {
         return array_map(function ($item) {
-            if (isset($item['size'])) {
-                $item['size'] = $this->formatBytes((int) $item['size']);
-            }
-
-            return $item;
+            return $this->formatStorageAttribute($item);
         }, $contents);
     }
 
     /**
-     * Format bytes as human readable filesize.
+     * Add basename to match v1 and format filesize human-readable.
      *
-     * @param int  $size
+     * @param StorageAttributes $item
+     *
+     * @return array
+     */
+    public function formatStorageAttribute(StorageAttributes $item): array
+    {
+        return [
+            'basename' => basename($item->path()), 
+            'path' => $item->path(), 
+            'size' => $item->isFile() ? $this->formatBytes((int) $item->fileSize()) : null,
+            'visibility' => $item->visibility(), 
+            'type' => $item->type(),
+        ];
+    }
+
+    /**
+     * Format bytes as human-readable filesize.
+     *
+     * @param int $size
      * @param int $precision
      *
      * @return string
@@ -141,9 +146,9 @@ class DirectoryService implements DirectoryServiceInterface
             $base = log($size) / log(1024);
             $suffixes = array(' bytes', ' KB', ' MB', ' GB', ' TB');
 
-            return round(pow(1024, $base - floor($base)), $precision).$suffixes[floor($base)];
+            return round(pow(1024, $base - floor($base)), $precision) . $suffixes[floor($base)];
         }
 
-        return $size.' bytes';
+        return $size . ' bytes';
     }
 }

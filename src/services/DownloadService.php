@@ -6,7 +6,6 @@ namespace jwhulette\filevuer\services;
 use Carbon\Carbon;
 use ZipStream\ZipStream;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Filesystem\FilesystemManager;
 use jwhulette\filevuer\services\SessionInterface;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -17,19 +16,20 @@ use jwhulette\filevuer\services\DirectoryServiceInterface;
   */
 class DownloadService implements DownloadServiceInterface
 {
-    /**
-     * @var Filesystem
-     */
-    private $fileSystem;
+    private FilesystemManager $fileSystem;
+
+    private DirectoryServiceInterface $directoryService;
 
     /**
      * __construct
      *
      * @param FilesystemManager $fileSystem
+     * @param DirectoryServiceInterface $directoryService
      */
-    public function __construct(FilesystemManager $fileSystem)
+    public function __construct(FilesystemManager $fileSystem, DirectoryServiceInterface $directoryService)
     {
         $this->fileSystem = $fileSystem;
+        $this->directoryService = $directoryService;
     }
 
     /**
@@ -106,28 +106,27 @@ class DownloadService implements DownloadServiceInterface
         if ($file['type'] == 'dir') {
             $listing = $this->fileSystem->cloud()->listContents($file['path'], true);
             foreach ($listing as $item) {
-                $this->addFileToZip($zipStream, $item, $file['dirname']);
+                $itemInfo = $this->directoryService->formatStorageAttribute($item);
+                $this->addFileToZip($zipStream, $itemInfo);
             }
         }
 
-        $this->addFileToZip($zipStream, $file, $file['dirname']);
+        $this->addFileToZip($zipStream, $file);
     }
 
     /**
      * @param ZipStream $zipStream
      * @param array $file
-     * @param string|null $rootDir
      *
      * @return void
      */
-    public function addFileToZip(ZipStream $zipStream, array $file, ?string $rootDir = null): void
+    public function addFileToZip(ZipStream $zipStream, array $file): void
     {
         if ($file['type'] == 'dir') {
             return;
         }
-        $filePath = substr($file['path'], $rootDir ? strlen($rootDir) + 1 : 0);
         $stream   = $this->fileSystem->cloud()->readStream($file['path']);
-        $zipStream->addFileFromStream($filePath, $stream);
+        $zipStream->addFileFromStream($file['path'], $stream);
     }
 
     /**

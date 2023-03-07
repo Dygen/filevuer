@@ -152,7 +152,6 @@ class UploadServiceTest extends TestCase
             'testArchive.zip',
             'application/zip',
             3066,
-            null,
             true
         );
     }
@@ -165,7 +164,6 @@ class UploadServiceTest extends TestCase
             'testCorruptArchive.zip',
             'application/zip',
             3066,
-            null,
             true
         );
     }
