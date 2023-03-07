@@ -6,9 +6,7 @@ namespace jwhulette\filevuer\services;
 use Carbon\Carbon;
 use ZipStream\ZipStream;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Filesystem\FilesystemManager;
-use Illuminate\Support\Facades\Log;
 use jwhulette\filevuer\services\SessionInterface;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use jwhulette\filevuer\services\DirectoryServiceInterface;
@@ -18,15 +16,9 @@ use jwhulette\filevuer\services\DirectoryServiceInterface;
   */
 class DownloadService implements DownloadServiceInterface
 {
-    /**
-     * @var Filesystem
-     */
-    private $fileSystem;
+    private FilesystemManager $fileSystem;
 
-    /**
-     * @var DirectoryServiceInterface
-     */
-    private $directoryService;
+    private DirectoryServiceInterface $directoryService;
 
     /**
      * __construct

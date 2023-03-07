@@ -18,7 +18,7 @@ class DirectoryControllerTest extends TestCase
         $filesystem->method('cloud')
             ->will($this->returnSelf());
         $filesystem->method('listContents')
-            ->willReturn($this->dummyListingNewVersion());
+            ->willReturn($this->dummyListing());
         $filesystem->method('makeDirectory')
             ->willReturn(true);
         $filesystem->method('deleteDirectory')

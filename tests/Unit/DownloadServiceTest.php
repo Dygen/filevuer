@@ -19,8 +19,8 @@ class DownloadServiceTest extends TestCase
 
     public function testAddFilesToZip()
     {
-        $file = $this->dummyListingNewVersion()[0];
-        $files = $this->dummyListingNewVersion();
+        $file = $this->dummyListing()[0];
+        $files = $this->dummyListing();
 
         $filesystem = $this->getMockBuilder(FilesystemManager::class)
             ->disableOriginalConstructor()

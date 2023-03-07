@@ -93,7 +93,7 @@ abstract class TestCase extends BaseTestCase
         ];
     }
 
-    protected function dummyListingNewVersion()
+    protected function dummyListing()
     {
         $dummyData = [];
 

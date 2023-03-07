@@ -39,7 +39,7 @@ class DownloadControllerTest extends TestCase
 
     public function testDownloadMultiFile()
     {
-        $files = $this->dummyListingNewVersion();
+        $files = $this->dummyListing();
 
         $filesystem = $this->getMockBuilder(FilesystemManager::class)
             ->disableOriginalConstructor()
