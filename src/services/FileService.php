@@ -84,6 +84,7 @@ class FileService implements FileServiceInterface
      */
     public function create(string $path): bool
     {
+        $this->checkPath($path);
         return $this->fileSystem->cloud()->put($path, '');
     }
 
@@ -96,7 +97,7 @@ class FileService implements FileServiceInterface
      *
      * @return void
      */
-    protected function checkPath($path): void
+    protected function checkPath(string $path): void
     {
         if ('' == $path) {
             throw new InvalidArgumentException('Please specify a file path.');
