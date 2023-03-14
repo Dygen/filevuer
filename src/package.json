@@ -16,7 +16,8 @@
         "eslint-plugin-vue": "^4.7.1",
         "laravel-mix": "^2.0",
         "lodash": "^4.17.4",
-        "vue": "^2.5.17"
+        "vue": "2.5.17",
+        "vue-template-compiler": "2.5.17"
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^1.2.2",
@@ -26,6 +27,7 @@
         "ajv": "^6.5.2",
         "alertifyjs": "^1.11.1",
         "bootstrap-vue": "^2.0.0-rc.11",
+        "vue-good-table": "^2.12.2",
         "file-loader": "^1.1.11",
         "i": "^0.3.6",
         "vue-resource": "^1.5.0",
