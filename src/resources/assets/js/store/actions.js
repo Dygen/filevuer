@@ -161,6 +161,17 @@ export default {
         path
     }) {
         commit(types.SET_LOADING, true)
+
+        let cleanUp = () => {
+            commit(types.SET_LOADING, false);
+        }
+
+        if (path.length === 0) {
+            alertify.error('Please provide a name for the file or folder');
+            cleanUp();
+            return;
+        }
+
         path = withPwd(state, path)
 
         api.create(type, path).then(() => {
