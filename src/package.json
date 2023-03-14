@@ -30,7 +30,7 @@
         "vue-good-table": "^2.12.2",
         "file-loader": "^1.1.11",
         "i": "^0.3.6",
-        "vue-resource": "^1.5.0",
+        "vue-resource": "^1.5.3",
         "vuex": "^3.0.1"
     }
 }
