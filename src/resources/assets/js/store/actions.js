@@ -167,7 +167,7 @@ export default {
         }
 
         if (path.length === 0) {
-            alertify.error('Please provide a name for the file or folder');
+            alertify.error('Please provide a name for the ' + type === 'file' ? 'file' : 'folder');
             cleanUp();
             return;
         }
