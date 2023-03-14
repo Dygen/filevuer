@@ -181,7 +181,8 @@ export default {
             alertify.success(newtype + ' created')
             dispatch(types.REFRESH)
         }).catch(e => {
-            alertify.error('Failed to create ' + type)
+            alertify.error('Failed to create ' + type);
+            cleanUp();
         })
     },
 
