@@ -161,6 +161,19 @@ export default {
         path
     }) {
         commit(types.SET_LOADING, true)
+
+        let cleanUp = () => {
+            commit(types.SET_LOADING, false);
+        }
+
+        let fileType = type === 'file' ? 'new file' : 'new folder';
+
+        if (path.length === 0) {
+            alertify.error('Please provide a name for the ' + fileType);
+            cleanUp();
+            return;
+        }
+
         path = withPwd(state, path)
 
         api.create(type, path).then(() => {
@@ -168,7 +181,8 @@ export default {
             alertify.success(newtype + ' created')
             dispatch(types.REFRESH)
         }).catch(e => {
-            alertify.error('Failed to create ' + type)
+            alertify.error('Failed to create ' + type);
+            cleanUp();
         })
     },
 
