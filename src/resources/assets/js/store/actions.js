@@ -166,7 +166,7 @@ export default {
             commit(types.SET_LOADING, false);
         }
 
-        let fileType = type === 'file' ? 'New file' : 'New folder';
+        let fileType = type === 'file' ? 'new file' : 'new folder';
 
         if (path.length === 0) {
             alertify.error('Please provide a name for the ' + fileType);
