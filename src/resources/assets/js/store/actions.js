@@ -15,12 +15,12 @@ let basePath = '/filevuer'
 export default {
 
     /**
-     * Check to see if there is a valid session, 
+     * Check to see if there is a valid session,
      * if not reload the window to log the user out.
      */
     [types.POLL_CONNECTION]() {
         return api.poll().then(response => {
-            if(response.active == false) {
+            if (response.active == false) {
                 window.location.reload(true);
             }
         })
@@ -130,6 +130,12 @@ export default {
 
         let cleanUp = () => {
             commit(types.SET_LOADING, false)
+        }
+
+        if (files === false || files.length === 0) {
+            alertify.error('Select a file or a folder to download');
+            cleanUp();
+            return;
         }
 
         commit(types.SET_LOADING, false)
