@@ -1,10 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace jwhulette\filevuer\services;
 
 use Illuminate\Filesystem\FilesystemManager;
 use jwhulette\filevuer\traits\SessionDriverTrait;
+use League\Flysystem\FileAttributes;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\StorageAttributes;
 
@@ -42,7 +44,7 @@ class DirectoryService implements DirectoryServiceInterface
         $contents = $this->fileSystem->cloud()->listContents($path);
         $contents = !is_array($contents) ? $contents->toArray() : $contents;
         $contents = $this->sortForListing($contents);
-        
+
         return $this->formatDirectoryListingAttributes($contents);
     }
 
@@ -122,13 +124,19 @@ class DirectoryService implements DirectoryServiceInterface
      */
     public function formatStorageAttribute(StorageAttributes $item): array
     {
-        return [
-            'basename' => basename($item->path()), 
-            'path' => $item->path(), 
-            'size' => $item->isFile() ? $this->formatBytes((int) $item->fileSize()) : null,
-            'visibility' => $item->visibility(), 
+        $attrs = [
+            'basename' => basename($item->path()),
+            'path' => $item->path(),
+            'visibility' => $item->visibility(),
             'type' => $item->type(),
         ];
+
+        if ($item instanceof FileAttributes) {
+            $attrs['size'] = $this->formatBytes((int) $item->fileSize());
+            $attrs['extension'] = strtolower(pathinfo($item->path(), PATHINFO_EXTENSION));
+        }
+
+        return $attrs;
     }
 
     /**

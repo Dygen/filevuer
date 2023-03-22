@@ -13,7 +13,7 @@ class DirectoryControllerTest extends TestCase
         parent::setUp();
         $filesystem = $this->getMockBuilder(FilesystemManager::class)
             ->disableOriginalConstructor()
-            ->setMethods(['cloud', 'listContents','makeDirectory', 'deleteDirectory'])
+            ->setMethods(['cloud', 'listContents', 'makeDirectory', 'deleteDirectory'])
             ->getMock();
         $filesystem->method('cloud')
             ->will($this->returnSelf());
@@ -29,37 +29,39 @@ class DirectoryControllerTest extends TestCase
     public function testIndex()
     {
         Carbon::setTestNow(Carbon::create(2020, 1, 1));
-        $response = $this->withSession($this->getSessionValues())->get(route('filevuer.directory'), [ 'path' => '/']);
+        $response = $this->withSession($this->getSessionValues())->get(route('filevuer.directory'), ['path' => '/']);
 
         $response->assertStatus(200);
         $expectedItems = [
             [
-                'basename' => "Directory A", 
-                'path' => "Directory A", 
-                'size' => null,
-                'visibility' => "public", 
+                'basename' => "Directory A",
+                'path' => "Directory A",
+                'visibility' => "public",
                 'type' => "dir",
             ],
             [
-                'basename' => "fileA.txt", 
-                'path' => "fileA.txt", 
+                'basename' => "fileA.txt",
+                'path' => "fileA.txt",
+                'visibility' => "public",
+                'type' => "file",
                 'size' => "30 bytes",
-                'visibility' => "public", 
-                'type' => "file",
+                'extension' => 'txt'
             ],
             [
-                'basename' => "fileB.txt", 
-                'path' => "fileB.txt", 
+                'basename' => "fileB.txt",
+                'path' => "fileB.txt",
+                'visibility' => "public",
+                'type' => "file",
                 'size' => "10 bytes",
-                'visibility' => "public", 
-                'type' => "file",
+                'extension' => 'txt'
             ],
             [
-                'basename' => "fileC.txt", 
-                'path' => "fileC.txt", 
-                'size' => "0 bytes",
-                'visibility' => "public", 
+                'basename' => "fileC.txt",
+                'path' => "fileC.txt",
+                'visibility' => "public",
                 'type' => "file",
+                'size' => "0 bytes",
+                'extension' => 'txt'
             ],
         ];
         $this->assertEquals(json_encode(['listing' => $expectedItems]), $response->getContent());
@@ -67,7 +69,7 @@ class DirectoryControllerTest extends TestCase
 
     public function testCreate()
     {
-        $response = $this->withSession($this->getSessionValues())->post(route('filevuer.directory'), [ 'path' => 'dir/subdir']);
+        $response = $this->withSession($this->getSessionValues())->post(route('filevuer.directory'), ['path' => 'dir/subdir']);
 
         $response->assertStatus(201);
         $this->assertEquals('{"success":true}', $response->getContent());
@@ -75,7 +77,7 @@ class DirectoryControllerTest extends TestCase
 
     public function testDelete()
     {
-        $response = $this->withSession($this->getSessionValues())->delete(route('filevuer.directory'), [ 'path' => ['dir/subdir']]);
+        $response = $this->withSession($this->getSessionValues())->delete(route('filevuer.directory'), ['path' => ['dir/subdir']]);
 
         $response->assertStatus(200);
         $this->assertEquals('{"success":"Directory deleted"}', $response->getContent());
