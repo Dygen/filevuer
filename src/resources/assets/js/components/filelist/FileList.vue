@@ -9,20 +9,20 @@
             <font-awesome-icon icon="search" />
           </b-input-group-prepend>
 
-          <b-form-input 
+          <b-form-input
             v-model="searchTerm"
             type="text"
             placeholder="Filter ..."/>
         </b-input-group>
       </div>
 
-      <div 
+      <div
         v-if="isRootLevel === false"
         class="col-2" >
-        <b-button 
-          variant="secondary" 
+        <b-button
+          variant="secondary"
           size="sm"
-          class="pull-right" 
+          class="pull-right"
           @click.prevent="levelUp">
           ... Up One Level
           <font-awesome-icon icon="level-up-alt" />
@@ -35,10 +35,10 @@
 
       <div class="col">
 
-        <vue-good-table 
+        <vue-good-table
           id="filelist-table"
-          :columns="columns" 
-          :rows="listing" 
+          :columns="columns"
+          :rows="listing"
           :select-options="{
             enabled: true,
             selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
@@ -51,13 +51,13 @@
           style-class="vgt-table condensed"
           @on-selected-rows-change="selectionChanged"
           @on-cell-click="click">
-          <template 
-            slot="table-row" 
+          <template
+            slot="table-row"
             slot-scope="props">
             <span v-if="props.column.field == 'type'">
               <span class="col text-center">
-                <font-awesome-icon 
-                  :icon="icon(props.row.type)" 
+                <font-awesome-icon
+                  :icon="icon(props.row.type)"
                   size="2x" />
               </span>
             </span>
@@ -65,17 +65,17 @@
               <div class="row">
                 <div class="col-11">
                   {{ props.row.basename }}
-                </div>  
-                <div class="col">
-                  <font-awesome-icon 
-                    v-if="edit(props.row.extension)" 
+                </div>
+                <div class="col-1">
+                  <font-awesome-icon
+                    v-if="edit(props.row.extension)"
                     icon="edit" />
                 </div>
               </div>
-            </span>          
+            </span>
             <span v-else>
               {{ props.formattedRow[props.column.field] }}
-            </span>          
+            </span>
           </template>
 
         </vue-good-table>
@@ -139,8 +139,8 @@
             }),
             isRootLevel () {
                 return this.path === '/';
-            },          
-        }, 
+            },
+        },
         methods: {
             ...mapActions({
                 levelUp: types.LEVEL_UP,
@@ -150,7 +150,7 @@
             }),
             icon(type) {
                 return type === 'file' ? 'file-alt' : 'folder'
-            }, 
+            },
             click(params) {
                 this.searchTerm = '';
                 if (params.row.type === 'file') {
@@ -165,7 +165,7 @@
             },
             edit(extension) {
                 return this.editable.includes(extension);
-            },             
+            },
         },
     }
 </script>
