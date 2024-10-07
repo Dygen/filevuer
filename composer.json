@@ -19,7 +19,7 @@
         "league/flysystem": "^3.0",
         "league/flysystem-aws-s3-v3": "^3.0",
         "league/flysystem-ftp": "^3.0",
-        "maennchen/zipstream-php": "^2.1"
+        "maennchen/zipstream-php": "^2.4"
     },
     "require-dev": {
         "orchestra/testbench": "^7",
