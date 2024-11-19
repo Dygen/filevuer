@@ -14,7 +14,7 @@
         "cross-env": "^5.1",
         "eslint": "^5.3.0",
         "eslint-plugin-vue": "^4.7.1",
-        "laravel-mix": "^2.0",
+        "laravel-mix": "^6.0",
         "lodash": "^4.17.4",
         "vue": "2.5.17",
         "vue-template-compiler": "2.5.17"
